@@ -1,5 +1,6 @@
 package com.example.rent_module.service.impl;
 
+import com.example.rent_module.exception.ApartmentException;
 import com.example.rent_module.mapper.RentMapper;
 import com.example.rent_module.model.dto.ApartmentRequestDto;
 import com.example.rent_module.model.entity.AddressEntity;
@@ -25,7 +26,7 @@ public class RentServiceImpl implements RentService {
     @Override
     public String addApartment(ApartmentRequestDto apartRequest) {
         if (addressRepository.findByAddress(apartRequest.getCityValue(), apartRequest.getStreet(), apartRequest.getNumberOfHouse(), apartRequest.getNumberOfApartment()).isPresent()) {
-            throw new RuntimeException(NOT_UNIQUE_APARTMENT_MESSAGE);
+            throw new ApartmentException(NOT_UNIQUE_APARTMENT_MESSAGE, 700);
         }
         AddressEntity address = rentMapper.apartmentRequestDtoToAddressEntity(apartRequest);
         addressRepository.save(address);
@@ -35,7 +36,7 @@ public class RentServiceImpl implements RentService {
     @Override
     public ApartmentRequestDto findApartmentById(Long id) {
         ApartmentEntity apartment = apartmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(NOT_FOUND_APARTMENT_MESSAGE));
+                .orElseThrow(() -> new ApartmentException(NOT_FOUND_APARTMENT_MESSAGE, 700));
         return rentMapper.apartmentEntityToApartmentRequestDto(apartment);
     }
 }
