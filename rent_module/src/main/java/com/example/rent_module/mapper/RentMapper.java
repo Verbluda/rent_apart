@@ -3,10 +3,12 @@ package com.example.rent_module.mapper;
 import com.example.rent_module.model.dto.ApartmentRequestDto;
 import com.example.rent_module.model.entity.AddressEntity;
 import com.example.rent_module.model.entity.ApartmentEntity;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import com.example.rent_module.model.entity.PhotoEntity;
+import com.example.rent_module.service.impl.Base64EncoderDecoder;
+import org.mapstruct.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
@@ -14,16 +16,15 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 public interface RentMapper {
 
     @Mapping(target = "city", source = "cityValue")
-    AddressEntity apartmentRequestDtoToAddressEntity(ApartmentRequestDto apartRequest);
-
-    ApartmentRequestDto apartmentEntityToApartmentRequestDto(ApartmentEntity apart);
-
+    AddressEntity apartmentRequestDtoToAddressEntity(ApartmentRequestDto apartRequest) throws IOException;
     @AfterMapping
-    default void afterApartmentRequestDtoToAddressEntity(@MappingTarget AddressEntity addressEntity, ApartmentRequestDto apartRequest) {
+    default void afterApartmentRequestDtoToAddressEntity(@MappingTarget AddressEntity addressEntity, ApartmentRequestDto apartRequest) throws IOException {
 
         addressEntity.setApartment(apartmentRequestDtoToApartmentEntity(apartRequest));
     }
 
-    ApartmentEntity apartmentRequestDtoToApartmentEntity(ApartmentRequestDto apartRequest);
+    ApartmentRequestDto apartmentEntityToApartmentRequestDto(ApartmentEntity apart);
+
+    ApartmentEntity apartmentRequestDtoToApartmentEntity(ApartmentRequestDto apartRequest) throws IOException;
 }
 
