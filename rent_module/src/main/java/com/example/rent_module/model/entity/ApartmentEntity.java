@@ -28,10 +28,6 @@ public class ApartmentEntity {
     @OneToOne(mappedBy="apartment")
     private AddressEntity address;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "photo_id")
-    private PhotoEntity photoOfApartment;
-
     public ApartmentEntity(int numberOfRoom, double pricePerDay) {
         this.numberOfRoom = numberOfRoom;
         this.isAvailable = true;
