@@ -14,12 +14,13 @@ public class RentApartmentExceptionHandler {
     }
 
     @ExceptionHandler(AddressException.class)
-    public ResponseEntity<?> catchException(AddressException e) {
+    public void catchException(AddressException e) {
 
-        return ResponseEntity.status(e.getExceptionCode()).body(e.getMessage());
+        preparedResponseMessage(e.getExceptionCode(), e.getMessage());
     }
 
     private ResponseEntity<?> preparedResponseMessage(int code, String message) {
+
         return ResponseEntity.status(code).body(message);
     }
 }
