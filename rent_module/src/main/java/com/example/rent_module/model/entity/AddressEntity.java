@@ -32,11 +32,11 @@ public class AddressEntity {
     @JoinColumn(name = "apartment_id")
     private ApartmentEntity apartment;
 
-    public AddressEntity(String city, String street, String numberOfHouse, String numberOfApartment, ApartmentEntity apart) {
-        this.city = city;
-        this.street = street;
-        this.numberOfHouse = numberOfHouse;
-        this.numberOfApartment = numberOfApartment;
-        this.apartment = apart;
-    }
+//    public AddressEntity(String city, String street, String numberOfHouse, String numberOfApartment, ApartmentEntity apart) {
+//        this.city = city;
+//        this.street = street;
+//        this.numberOfHouse = numberOfHouse;
+//        this.numberOfApartment = numberOfApartment;
+//        this.apartment = apart;
+//    }
 }

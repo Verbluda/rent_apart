@@ -2,6 +2,7 @@ package com.example.rent_module.service.impl;
 
 import com.example.rent_module.mapper.RentMapper;
 import com.example.rent_module.model.dto.ApartmentRequestDto;
+import com.example.rent_module.model.dto.ApartmentResponseDto;
 import com.example.rent_module.model.entity.AddressEntity;
 import com.example.rent_module.model.entity.ApartmentEntity;
 import com.example.rent_module.model.entity.PhotoEntity;
@@ -28,7 +29,7 @@ public class RentServiceImpl implements RentService {
     private final RentMapper rentMapper;
 
     @Override
-    public String addApartment(ApartmentRequestDto apartRequest) throws IOException {
+    public String addApartment(ApartmentRequestDto apartRequest) {
         if (addressRepository.findByAddress(apartRequest.getCityValue(), apartRequest.getStreet(), apartRequest.getNumberOfHouse(), apartRequest.getNumberOfApartment()).isPresent()) {
             throw new RuntimeException(APARTMENT_ALREADY_EXISTS_MESSAGE);
         }
@@ -38,18 +39,18 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public ApartmentRequestDto findApartmentById(Long id) {
-        ApartmentEntity apartment = apartmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(NOT_FOUND_APARTMENT_MESSAGE));
-        return rentMapper.apartmentEntityToApartmentRequestDto(apartment);
-    }
-
-    @Override
     public String addPhotoToApartment(Long id, MultipartFile multipartFile) throws IOException {
         ApartmentEntity apartment = apartmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(NOT_FOUND_APARTMENT_MESSAGE));
-        apartment.setPhotoOfApartment(new PhotoEntity(Base64EncoderDecoder.encode(multipartFile)));
+        apartment.setPhotoEntity(new PhotoEntity(Base64EncoderDecoder.encode(multipartFile)));
         apartmentRepository.save(apartment);
         return SUCCESSFUL_ADDING_PHOTO_MESSAGE;
+    }
+
+    @Override
+    public ApartmentResponseDto findApartmentById(Long id) throws IOException {
+        ApartmentEntity apartment = apartmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_APARTMENT_MESSAGE));
+        return rentMapper.apartmentEntityToApartmentResponseDto(apartment);
     }
 }

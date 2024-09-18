@@ -17,9 +17,9 @@ public class PhotoEntity {
     private Long id;
 
     @Column(name = "photo_of_apartment")
-    private String photoOfApartment;
+    private byte[] photoOfApartment;
 
-    public PhotoEntity(String photoOfApartment) {
+    public PhotoEntity(byte[] photoOfApartment) {
         this.photoOfApartment = photoOfApartment;
     }
 }

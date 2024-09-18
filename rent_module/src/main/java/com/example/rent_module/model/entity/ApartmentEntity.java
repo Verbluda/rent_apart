@@ -2,11 +2,9 @@ package com.example.rent_module.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
 @Table(name = "apartment")
 public class ApartmentEntity {
 
@@ -19,7 +17,7 @@ public class ApartmentEntity {
     @Column(name = "number_of_room")
     private int numberOfRoom;
 
-    @Column(name = "is_available")
+    @Column(name = "is_available", columnDefinition =  "BOOLEAN DEFAULT true")
     private boolean isAvailable;
 
     @Column(name = "price_per_day")
@@ -30,11 +28,5 @@ public class ApartmentEntity {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
-    private PhotoEntity photoOfApartment;
-
-    public ApartmentEntity(int numberOfRoom, double pricePerDay) {
-        this.numberOfRoom = numberOfRoom;
-        this.isAvailable = true;
-        this.pricePerDay = pricePerDay;
-    }
+    private PhotoEntity photoEntity;
 }

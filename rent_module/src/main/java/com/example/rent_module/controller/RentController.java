@@ -1,5 +1,6 @@
 package com.example.rent_module.controller;
 
+import com.example.rent_module.model.dto.ApartmentResponseDto;
 import com.example.rent_module.service.RentService;
 import lombok.RequiredArgsConstructor;
 import com.example.rent_module.model.dto.ApartmentRequestDto;
@@ -17,7 +18,7 @@ public class RentController {
     private final RentService rentService;
 
     @PostMapping(REGISTRATION_OF_APARTMENT)
-    public String addApartment(@RequestBody ApartmentRequestDto apartRegistration) throws IOException {
+    public String addApartment(@RequestBody ApartmentRequestDto apartRegistration) {
         return rentService.addApartment(apartRegistration);
     }
 
@@ -27,7 +28,7 @@ public class RentController {
         return rentService.addPhotoToApartment(id, multipartFile);
     }
     @GetMapping(SHOW_APARTMENT_BY_ID)
-    public ApartmentRequestDto findApartmentById(@PathVariable Long id) {
+    public ApartmentResponseDto findApartmentById(@PathVariable Long id) throws IOException {
         return rentService.findApartmentById(id);
     }
 }
