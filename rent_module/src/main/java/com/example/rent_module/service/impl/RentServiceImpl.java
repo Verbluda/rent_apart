@@ -22,7 +22,7 @@ public class RentServiceImpl implements RentService {
 
     public static final String SUCCESSFUL_REGISTRATION_APARTMENT_MESSAGE = "Apartment is successfully registered";
     public static final String SUCCESSFUL_ADDING_PHOTO_MESSAGE = "Photo of apartment is successfully added";
-    public static final String APARTMENT_ALREADY_EXISTS_MESSAGE = "Apartment already exists";
+    public static final String NOT_UNIQUE_APARTMENT_MESSAGE = "Apartment already exists";
     public static final String NOT_FOUND_APARTMENT_MESSAGE = "Apartment does not exists";
 
     private final AddressRepository addressRepository;

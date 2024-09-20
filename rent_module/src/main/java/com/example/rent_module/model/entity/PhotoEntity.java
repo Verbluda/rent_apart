@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class PhotoEntity {
 
     @Id
-    @SequenceGenerator(name="photoSequence", sequenceName="photo_sequence", allocationSize = 1, initialValue = 2)
+    @SequenceGenerator(name="photoSequence", sequenceName="photo_sequence", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="photoSequence")
     @Column(name = "id")
     private Long id;
