@@ -29,4 +29,8 @@ public class ApartmentEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
     private PhotoEntity photoEntity;
+
+    public ApartmentEntity() {
+        isAvailable = true;
+    }
 }
