@@ -3,4 +3,4 @@ CREATE TABLE IF NOT EXISTS photo (
                                        photo_of_apartment bytea
 );
 
-CREATE SEQUENCE photo_sequence START 2 INCREMENT 1;
+CREATE SEQUENCE photo_sequence START 1 INCREMENT 1;
