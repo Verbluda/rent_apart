@@ -16,4 +16,9 @@ public class Base64EncoderDecoder {
 
         return Base64.getDecoder().decode(value);
     }
+
+    public static String decode(String value) {
+
+        return new String(Base64.getDecoder().decode(value));
+    }
 }

@@ -5,6 +5,7 @@ import com.example.rent_module.model.dto.ApartmentResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface RentService {
 
@@ -13,4 +14,6 @@ public interface RentService {
     String addPhotoToApartment(Long id, MultipartFile multipartFile) throws IOException;
 
     ApartmentResponseDto findApartmentById(Long id) throws IOException;
+
+    List<ApartmentResponseDto> findApartmentByLocation(String latitude, String longitude);
 }

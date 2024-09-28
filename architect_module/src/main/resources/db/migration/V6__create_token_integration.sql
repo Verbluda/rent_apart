@@ -1,7 +1,8 @@
-CREATE TABLE IF NOT EXISTS token_integration (
-                                     id int8 PRIMARY KEY,
-                                     service_name varchar,
-                                     token varchar
+CREATE TABLE IF NOT EXISTS integration_info (
+                                     service_name_id varchar PRIMARY KEY,
+                                     path_value varchar,
+                                     token_value varchar
 );
 
-CREATE SEQUENCE token_sequence START 1 INCREMENT 1;
+INSERT INTO integration_info (service_name_id, path_value, token_value)
+VALUES ('GEO', 'https://api.opencagedata.com/geocode/v1/json?q=%s+%s&key=%s', 'N2Y1ZGQ1Yzk3NDY1NDU0M2E3MjFlNGI0MzE0MDBkNjI=');
