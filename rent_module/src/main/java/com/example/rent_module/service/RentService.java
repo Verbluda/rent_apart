@@ -2,6 +2,8 @@ package com.example.rent_module.service;
 
 import com.example.rent_module.model.dto.ApartmentRequestDto;
 import com.example.rent_module.model.dto.ApartmentResponseDto;
+import com.example.rent_module.model.dto.WeatherResponseDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,4 +18,5 @@ public interface RentService {
     ApartmentResponseDto findApartmentById(Long id) throws IOException;
 
     List<ApartmentResponseDto> findApartmentByLocation(String latitude, String longitude);
+    WeatherResponseDto findWeatherByLocation(String latitude, String longitude) throws JsonProcessingException;
 }

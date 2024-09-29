@@ -7,4 +7,5 @@ public class ControllerConstant {
     public static final String SHOW_APARTMENT_BY_ID = BASE_PATH + "/show/{id}";
     public static final String ADD_PHOTO_TO_APARTMENT = BASE_PATH + "/{id}/add_photo";
     public static final String FIND_APARTMENT_BY_LOCATION = BASE_PATH + "/find_apartment_by_location";
+    public static final String FIND_WEATHER_BY_LOCATION = BASE_PATH + "/find_weather_by_location";
 }

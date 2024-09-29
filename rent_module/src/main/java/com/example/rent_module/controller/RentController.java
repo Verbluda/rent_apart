@@ -1,7 +1,9 @@
 package com.example.rent_module.controller;
 
 import com.example.rent_module.model.dto.ApartmentResponseDto;
+import com.example.rent_module.model.dto.WeatherResponseDto;
 import com.example.rent_module.service.RentService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import com.example.rent_module.model.dto.ApartmentRequestDto;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +39,11 @@ public class RentController {
     public List<ApartmentResponseDto> findApartmentByLocation(@RequestParam String latitude,
                                                               @RequestParam String longitude) {
         return rentService.findApartmentByLocation(latitude, longitude);
+    }
+
+    @PostMapping(FIND_WEATHER_BY_LOCATION)
+    public WeatherResponseDto findWeatherByLocation(@RequestParam String latitude,
+                                                    @RequestParam String longitude) throws JsonProcessingException {
+        return rentService.findWeatherByLocation(latitude, longitude);
     }
 }

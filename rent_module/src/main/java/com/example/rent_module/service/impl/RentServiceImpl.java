@@ -4,6 +4,7 @@ import com.example.rent_module.exception.ApartmentException;
 import com.example.rent_module.mapper.RentMapper;
 import com.example.rent_module.model.dto.ApartmentRequestDto;
 import com.example.rent_module.model.dto.ApartmentResponseDto;
+import com.example.rent_module.model.dto.WeatherResponseDto;
 import com.example.rent_module.model.entity.AddressEntity;
 import com.example.rent_module.model.entity.ApartmentEntity;
 import com.example.rent_module.model.entity.PhotoEntity;
@@ -11,7 +12,10 @@ import com.example.rent_module.repository.AddressRepository;
 import com.example.rent_module.repository.ApartmentRepository;
 import com.example.rent_module.service.IntegrationService;
 import com.example.rent_module.service.RentService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,7 +63,14 @@ public class RentServiceImpl implements RentService {
 
     @Override
     public List<ApartmentResponseDto> findApartmentByLocation(String latitude, String longitude) {
-        integrationService.findByLocation(latitude, longitude);
+        integrationService.findApartmentByLocation(latitude, longitude);
         return null;
+    }
+
+    @Override
+    public WeatherResponseDto findWeatherByLocation(String latitude, String longitude) throws JsonProcessingException {
+        String json = integrationService.findWeatherByLocation(latitude, longitude);
+        WeatherResponseDto weatherResponseDto = new ObjectMapper().readValue(json.substring(33, json.length() - 3), WeatherResponseDto.class);
+        return weatherResponseDto;
     }
 }

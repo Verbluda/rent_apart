@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,60 +18,79 @@ public class IntegrationServiceImpl implements IntegrationService {
 
     private final IntegrationRepository integrationRepository;
     RestTemplate restTemplate = new RestTemplate();
+    HttpHeaders headers = new HttpHeaders();
     public static final String URL_1 = "http://localhost:9696/api/product/test1";
     public static final String URL_2 = "http://localhost:9696/api/product/test2?text=%s";
     public static final String URL_3 = "http://localhost:9696/api/product/test3";
     public static final String GEO = "GEO";
+    public static final String YANDEX_WEATHER = "WEATHER";
+    public static final String NOT_FOUND_INTEGRATION_INFO = "Information about this integration is not found";
 
     @Override
     public String integrate1() {
-        String body = restTemplate.exchange(URL_1,
+        headers.add("token", "token");
+        return restTemplate.exchange(URL_1,
                 HttpMethod.GET,
-                new HttpEntity<>(null, getHeaders()),
+                new HttpEntity<>(null, headers),
                 String.class).getBody();
-        return body;
     }
 
     @Override
     public String integrate2() {
-        String body = restTemplate.exchange(prepareUrl(),
+        headers.add("token", "token");
+        return restTemplate.exchange(prepareUrl2(),
                 HttpMethod.GET,
-                new HttpEntity<>(null, getHeaders()),
+                new HttpEntity<>(null, headers),
                 String.class).getBody();
-        return body;
     }
 
     @Override
     public String integrate3() {
-        String body = restTemplate.exchange(URL_3,
+        headers.add("token", "token");
+        return restTemplate.exchange(URL_3,
                 HttpMethod.POST,
-                new HttpEntity<>(new TestObjectDto(2, "имя"), getHeaders()),
+                new HttpEntity<>(new TestObjectDto(2, "имя"), headers),
                 String.class).getBody();
-        return body;
     }
 
     @Override
-    public String findByLocation(String latitude, String longitude) {
+    public String findApartmentByLocation(String latitude, String longitude) {
         return restTemplate.exchange(prepareUrlForGeo(latitude, longitude),
                 HttpMethod.GET,
                 new HttpEntity<>(null, null),
                 String.class).getBody();
     }
 
-    private String prepareUrl() {
+    @Override
+    public String findWeatherByLocation(String latitude, String longitude) {
+        IntegrationEntity integrationEntity = integrationRepository.findById(YANDEX_WEATHER)
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_INTEGRATION_INFO));
+        headers.add("X-Yandex-Weather-Key", Base64EncoderDecoder.decode(integrationEntity.getTokenValue()));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return restTemplate.exchange(integrationEntity.getPathValue(),
+                HttpMethod.POST,
+                new HttpEntity<>(getBodyForWeather(latitude, longitude), headers),
+                String.class).getBody();
+    }
+
+    private String prepareUrl2() {
         String text = "table";
         return String.format(URL_2, text);
     }
 
     private String prepareUrlForGeo(String latitude, String longitude) {
-        IntegrationEntity integrationEntity = integrationRepository.findById(GEO).orElseThrow(() -> new RuntimeException("Данных по интеграции с сервисом не обнаружено"));
-        return String.format(integrationEntity.getPathValue(), latitude, longitude, Base64EncoderDecoder.decode(integrationEntity.getTokenValue()));
+        IntegrationEntity integrationEntity = integrationRepository.findById(GEO)
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_INTEGRATION_INFO));
+        return String.format(integrationEntity.getPathValue(),
+                latitude, longitude, Base64EncoderDecoder.decode(integrationEntity.getTokenValue()));
     }
 
-    private HttpHeaders getHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("token", "token");
-        return headers;
+    private String getBodyForWeather(String latitude, String longitude) {
+        String weatherQuery = "{\n" +
+                "  \"query\": \"{ weatherByPoint(request: {lat: %s, lon: %s}) " +
+                "{ now { " +
+                "cloudiness humidity precType precStrength pressure temperature windSpeed windDirection } }}\"\n" +
+                "}";
+        return String.format(weatherQuery, latitude, longitude);
     }
-
 }

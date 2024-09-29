@@ -5,5 +5,6 @@ public interface IntegrationService {
     String integrate1();
     String integrate2();
     String integrate3();
-    String findByLocation(String latitude, String longitude);
+    String findApartmentByLocation(String latitude, String longitude);
+    String findWeatherByLocation(String latitude, String longitude);
 }
