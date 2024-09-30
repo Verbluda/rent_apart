@@ -1,6 +1,7 @@
 package com.example.rent_module.service.impl;
 
 import com.example.rent_module.model.TestObjectDto;
+import com.example.rent_module.model.dto.GeoCoderResponseDto;
 import com.example.rent_module.model.entity.IntegrationEntity;
 import com.example.rent_module.repository.IntegrationRepository;
 import com.example.rent_module.service.IntegrationService;
@@ -53,12 +54,20 @@ public class IntegrationServiceImpl implements IntegrationService {
                 String.class).getBody();
     }
 
+//    @Override
+//    public String findApartmentByLocation(String latitude, String longitude) {
+//        return restTemplate.exchange(prepareUrlForGeo(latitude, longitude),
+//                HttpMethod.GET,
+//                new HttpEntity<>(null, null),
+//                String.class).getBody();
+//    }
+
     @Override
-    public String findApartmentByLocation(String latitude, String longitude) {
+    public GeoCoderResponseDto findApartmentByLocation(String latitude, String longitude) {
         return restTemplate.exchange(prepareUrlForGeo(latitude, longitude),
                 HttpMethod.GET,
                 new HttpEntity<>(null, null),
-                String.class).getBody();
+                GeoCoderResponseDto.class).getBody();
     }
 
     @Override
@@ -92,5 +101,9 @@ public class IntegrationServiceImpl implements IntegrationService {
                 "cloudiness humidity precType precStrength pressure temperature windSpeed windDirection } }}\"\n" +
                 "}";
         return String.format(weatherQuery, latitude, longitude);
+    }
+
+    private HttpHeaders setHeaders() {
+        return null;
     }
 }
