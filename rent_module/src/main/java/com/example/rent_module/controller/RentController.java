@@ -1,15 +1,15 @@
 package com.example.rent_module.controller;
 
+import com.example.rent_module.model.dto.ApartmentRequestDto;
 import com.example.rent_module.model.dto.ApartmentResponseDto;
 import com.example.rent_module.model.dto.WeatherResponseDto;
+import com.example.rent_module.service.CheckValidToken;
 import com.example.rent_module.service.RentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import com.example.rent_module.model.dto.ApartmentRequestDto;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.example.rent_module.controller.ControllerConstant.*;
@@ -19,9 +19,12 @@ import static com.example.rent_module.controller.ControllerConstant.*;
 public class RentController {
 
     private final RentService rentService;
+    private final CheckValidToken checkValidToken;
 
     @PostMapping(REGISTRATION_OF_APARTMENT)
-    public String addApartment(@RequestBody ApartmentRequestDto apartRegistration) {
+    public String addApartment(@RequestBody ApartmentRequestDto apartRegistration,
+                               @RequestHeader String token) {
+        checkValidToken.checkToken(token);
         return rentService.addApartment(apartRegistration);
     }
 

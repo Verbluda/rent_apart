@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -75,11 +76,9 @@ public class RentServiceImpl implements RentService {
 
     @Override
     public List<ApartmentResponseDto> findApartmentByLocation(String latitude, String longitude) {
-//        String locationInfo = integrationService.findApartmentByLocation(latitude, longitude);
         GeoCoderResponseDto apartmentByLocation = integrationService.findApartmentByLocation(latitude, longitude);
-//        String city = parsInfoFromGeo(locationInfo);
-        List<AddressEntity> addressList = addressRepository.findByCity(checkGeoResponse(apartmentByLocation))
-                .orElseThrow(() -> new ApartmentException(NOT_FOUND_APARTMENT_MESSAGE, 700));
+        List<AddressEntity> addressList = addressRepository.findByCity(checkGeoResponse(apartmentByLocation));
+        if (addressList.isEmpty()) throw new RuntimeException();
         return addressList.stream()
                 .map(x -> {
                     try {

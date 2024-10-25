@@ -22,11 +22,4 @@ public class PhotoEntity {
     public PhotoEntity(byte[] photoOfApartment) {
         this.photoOfApartment = photoOfApartment;
     }
-
-    @Override
-    public String toString() {
-        return "PhotoEntity{" +
-                "id=" + id +
-                '}';
-    }
 }

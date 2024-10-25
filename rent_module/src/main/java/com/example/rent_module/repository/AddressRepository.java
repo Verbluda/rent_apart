@@ -16,5 +16,5 @@ public interface AddressRepository extends JpaRepository<AddressEntity, Long> {
     Optional<AddressEntity> findByAddress(String city, String street, String numberOfHouse, String numberOfApartment);
 
     @Query(value = "select a from AddressEntity a where a.city = :city")
-    Optional<List<AddressEntity>> findByCity(String city);
+    List<AddressEntity> findByCity(String city);
 }

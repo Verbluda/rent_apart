@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 
+import static java.util.Objects.isNull;
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
 @Mapper(componentModel = SPRING)
@@ -35,10 +36,11 @@ public interface RentMapper {
     ApartmentResponseDto apartmentEntityToApartmentResponseDto(ApartmentEntity apartmentEntity) throws IOException;
     @AfterMapping
     default void afterApartmentEntityToApartmentResponseDto(@MappingTarget ApartmentResponseDto apartmentResponse, ApartmentEntity apartmentEntity) throws IOException {
-
-        byte[] photoOfApartmentCoded = apartmentEntity.getPhotoEntity().getPhotoOfApartment();
-        byte[] photo = Base64EncoderDecoder.decode(photoOfApartmentCoded);
-        apartmentResponse.setPhoto(photo);
+        if (!isNull(apartmentEntity.getPhotoEntity())) {
+            byte[] photoOfApartmentCoded = apartmentEntity.getPhotoEntity().getPhotoOfApartment();
+            byte[] photo = Base64EncoderDecoder.decode(photoOfApartmentCoded);
+            apartmentResponse.setPhoto(photo);
+        }
     }
 }
 
