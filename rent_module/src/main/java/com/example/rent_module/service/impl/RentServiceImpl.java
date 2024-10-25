@@ -50,19 +50,27 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public String addPhotoToApartment(Long id, MultipartFile multipartFile) throws IOException {
+    public String addPhotoToApartment(Long id, MultipartFile multipartFile) {
         ApartmentEntity apartment = apartmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(NOT_FOUND_APARTMENT_MESSAGE));
-        apartment.setPhotoEntity(new PhotoEntity(Base64EncoderDecoder.encode(multipartFile)));
+                .orElseThrow(() -> new ApartmentException(NOT_FOUND_APARTMENT_MESSAGE));
+        try {
+            apartment.setPhotoEntity(new PhotoEntity(Base64EncoderDecoder.encode(multipartFile)));
+        } catch (IOException e) {
+            throw new ApartmentException("Проблема с сериализацией фотографии");
+        }
         apartmentRepository.save(apartment);
         return SUCCESSFUL_ADDING_PHOTO_MESSAGE;
     }
 
     @Override
-    public ApartmentResponseDto findApartmentById(Long id) throws IOException {
+    public ApartmentResponseDto findApartmentById(Long id) {
         ApartmentEntity apartment = apartmentRepository.findById(id)
                 .orElseThrow(() -> new ApartmentException(NOT_FOUND_APARTMENT_MESSAGE, 700));
-        return rentMapper.apartmentEntityToApartmentResponseDto(apartment);
+        try {
+            return rentMapper.apartmentEntityToApartmentResponseDto(apartment);
+        } catch (IOException e) {
+            throw new ApartmentException("Проблема с сериализацией фотографии");
+        }
     }
 
     @Override
@@ -88,9 +96,14 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public WeatherResponseDto findWeatherByLocation(String latitude, String longitude) throws JsonProcessingException {
+    public WeatherResponseDto findWeatherByLocation(String latitude, String longitude) {
         String json = integrationService.findWeatherByLocation(latitude, longitude);
-        WeatherResponseDto weatherResponseDto = new ObjectMapper().readValue(json.substring(33, json.length() - 3), WeatherResponseDto.class);
+        WeatherResponseDto weatherResponseDto = null;
+        try {
+            weatherResponseDto = new ObjectMapper().readValue(json.substring(33, json.length() - 3), WeatherResponseDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Ошибка преодбразования ответа от сервиса погоды");
+        }
         return weatherResponseDto;
     }
 

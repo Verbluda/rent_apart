@@ -11,4 +11,8 @@ public class ApartmentException extends  RuntimeException {
         super(message);
         this.exceptionCode = exceptionCode;
     }
+
+    public ApartmentException(String message) {
+        super(message);
+    }
 }

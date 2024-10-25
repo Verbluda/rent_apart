@@ -54,14 +54,6 @@ public class IntegrationServiceImpl implements IntegrationService {
                 String.class).getBody();
     }
 
-//    @Override
-//    public String findApartmentByLocation(String latitude, String longitude) {
-//        return restTemplate.exchange(prepareUrlForGeo(latitude, longitude),
-//                HttpMethod.GET,
-//                new HttpEntity<>(null, null),
-//                String.class).getBody();
-//    }
-
     @Override
     public GeoCoderResponseDto findApartmentByLocation(String latitude, String longitude) {
         return restTemplate.exchange(prepareUrlForGeo(latitude, longitude),

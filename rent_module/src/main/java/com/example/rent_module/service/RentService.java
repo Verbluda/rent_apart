@@ -13,9 +13,9 @@ public interface RentService {
 
     String addApartment(ApartmentRequestDto apart);
 
-    String addPhotoToApartment(Long id, MultipartFile multipartFile) throws IOException;
+    String addPhotoToApartment(Long id, MultipartFile multipartFile);
 
-    ApartmentResponseDto findApartmentById(Long id) throws IOException;
+    ApartmentResponseDto findApartmentById(Long id);
 
     List<ApartmentResponseDto> findApartmentByLocation(String latitude, String longitude);
     WeatherResponseDto findWeatherByLocation(String latitude, String longitude) throws JsonProcessingException;

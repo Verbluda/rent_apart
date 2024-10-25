@@ -27,11 +27,11 @@ public class RentController {
 
     @PostMapping(ADD_PHOTO_TO_APARTMENT)
     public String addPhotoToApartment(@RequestParam Long id,
-                                      @RequestParam MultipartFile multipartFile) throws IOException {
+                                      @RequestParam MultipartFile multipartFile) {
         return rentService.addPhotoToApartment(id, multipartFile);
     }
     @GetMapping(SHOW_APARTMENT_BY_ID)
-    public ApartmentResponseDto findApartmentById(@PathVariable Long id) throws IOException {
+    public ApartmentResponseDto findApartmentById(@PathVariable Long id) {
         return rentService.findApartmentById(id);
     }
 
