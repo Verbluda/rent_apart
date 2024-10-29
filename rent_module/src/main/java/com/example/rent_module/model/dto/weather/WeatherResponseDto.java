@@ -1,4 +1,4 @@
-package com.example.rent_module.model.dto;
+package com.example.rent_module.model.dto.weather;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,8 +8,8 @@ import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"error"})
-public class GeoCoderResponseDto {
+public class WeatherResponseDto {
 
-    @JsonProperty(value = "results")
-    private List<ResultsElem> resultsElemList;
+    @JsonProperty(value = "current")
+    private CurrentWeather currentWeather;
 }

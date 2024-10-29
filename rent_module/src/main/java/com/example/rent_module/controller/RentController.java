@@ -2,7 +2,7 @@ package com.example.rent_module.controller;
 
 import com.example.rent_module.model.dto.ApartmentRequestDto;
 import com.example.rent_module.model.dto.ApartmentResponseDto;
-import com.example.rent_module.model.dto.WeatherResponseDto;
+import com.example.rent_module.model.dto.weather.WeatherResponseDto;
 import com.example.rent_module.service.CheckValidToken;
 import com.example.rent_module.service.RentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -44,9 +44,9 @@ public class RentController {
         return rentService.findApartmentByLocation(latitude, longitude);
     }
 
-    @PostMapping(FIND_WEATHER_BY_LOCATION)
+    @GetMapping(FIND_WEATHER_BY_LOCATION)
     public WeatherResponseDto findWeatherByLocation(@RequestParam String latitude,
-                                                    @RequestParam String longitude) throws JsonProcessingException {
+                                                    @RequestParam String longitude) {
         return rentService.findWeatherByLocation(latitude, longitude);
     }
 }

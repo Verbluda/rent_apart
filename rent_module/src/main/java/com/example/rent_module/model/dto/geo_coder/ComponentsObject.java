@@ -1,4 +1,4 @@
-package com.example.rent_module.model.dto;
+package com.example.rent_module.model.dto.geo_coder;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
