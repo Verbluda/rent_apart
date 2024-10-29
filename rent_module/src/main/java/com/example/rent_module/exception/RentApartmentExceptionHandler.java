@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class RentApartmentExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
-    public void catchException(RuntimeException e) {
+    public ResponseEntity<?> catchException(RuntimeException e) {
 
-        preparedResponseMessage(null, e.getMessage());
+        return preparedResponseMessage(null, e.getMessage());
     }
     @ExceptionHandler(ApartmentException.class)
-    public void catchException(ApartmentException e) {
+    public ResponseEntity<?> catchException(ApartmentException e) {
 
-        preparedResponseMessage(e.getExceptionCode(), e.getMessage());
+        return preparedResponseMessage(e.getExceptionCode(), e.getMessage());
     }
 
     @ExceptionHandler(AddressException.class)
-    public void catchException(AddressException e) {
+    public ResponseEntity<?> catchException(AddressException e) {
 
-        preparedResponseMessage(e.getExceptionCode(), e.getMessage());
+        return preparedResponseMessage(e.getExceptionCode(), e.getMessage());
     }
 
     private ResponseEntity<?> preparedResponseMessage(Integer code, String message) {
