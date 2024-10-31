@@ -3,6 +3,8 @@ package com.example.rent_module.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "apartment")
@@ -29,6 +31,9 @@ public class ApartmentEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
     private PhotoEntity photoEntity;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "apartmentEntity")
+    private List<BookingInfoEntity> bookingInfoEntities;
 
     public ApartmentEntity() {
         isAvailable = true;

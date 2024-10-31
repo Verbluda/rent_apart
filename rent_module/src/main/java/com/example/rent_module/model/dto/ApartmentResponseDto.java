@@ -10,7 +10,7 @@ import java.io.File;
 @AllArgsConstructor
 public class ApartmentResponseDto {
 
-    private Long id;
+    private String message;
     private int numberOfRoom;
     private boolean isAvailable;
     private double pricePerDay;
