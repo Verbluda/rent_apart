@@ -1,7 +1,6 @@
 package com.example.rent_module.model.dto;
 
-import com.example.rent_module.model.entity.ApartmentEntity;
-import com.example.rent_module.model.entity.UserEntity;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 

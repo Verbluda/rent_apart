@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -98,14 +97,18 @@ public class RentServiceImpl implements RentService {
 
     @Override
     public ApartmentResponseDto bookApartment(UserEntity user, Long id, LocalDate startDate, LocalDate endDate) {
-        //bookingRepository. проверка (1 приоритет)
+//        List<BookingInfoEntity> overlapBooking = bookingRepository.findOverlapBookingInfo(startDate, endDate);
+//        if (!overlapBooking.isEmpty()) throw new RuntimeException();
         ApartmentEntity apartment = apartmentRepository.findById(id).orElseThrow(() -> new ApartmentException("Апартаменты недоступны для бронирования"));
         BookingInfoEntity bookingInfo = rentMapper.prepareBookingInfoEntityFromParams(startDate, endDate, apartment, user);
         bookingRepository.save(bookingInfo);
-        //bookingRepository
         //productСontroller
-        rentMapper.apartmentEntityToApartmentResponseDto(apartment);
-        // в течение суток вышлем инфу
+        try {
+            ApartmentResponseDto apartmentResponse = rentMapper.apartmentEntityToApartmentResponseDto(apartment);
+        } catch (IOException e) {
+            // в течение суток вышлем инфу
+            throw new RuntimeException(e);
+        }
         return null;
     }
 

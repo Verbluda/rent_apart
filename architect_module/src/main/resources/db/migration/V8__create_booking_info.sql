@@ -13,4 +13,4 @@ CREATE SEQUENCE booking_info_sequence START WITH 3 INCREMENT BY 1;
 INSERT INTO booking_info (id, start_date, end_date, amount, discount, apartment_id, user_id)
 VALUES
     (1,'2024-10-01 10:00:00', '2024-10-10 12:00:00', '1000', '10', 1, 1),
-    (2, '2024-11-05 14:00:00', '2024-11-15 11:00:00', '1500', '5', 2, 2);
+    (2, '2024-11-05 14:00:00', '2024-11-15 11:00:00', '1500', '5', 2, 1);

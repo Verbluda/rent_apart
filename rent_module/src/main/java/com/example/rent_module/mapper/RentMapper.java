@@ -7,14 +7,13 @@ import com.example.rent_module.model.entity.ApartmentEntity;
 import com.example.rent_module.model.entity.BookingInfoEntity;
 import com.example.rent_module.model.entity.UserEntity;
 import com.example.rent_module.service.impl.Base64EncoderDecoder;
-import org.mapstruct.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.Base64;
 
 import static java.util.Objects.isNull;
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
@@ -46,6 +45,7 @@ public interface RentMapper {
         }
     }
 
+    @Mapping(target = "id", ignore = true)
     BookingInfoEntity prepareBookingInfoEntityFromParams(LocalDate startDate, LocalDate endDate, ApartmentEntity apartmentEntity, UserEntity userEntity);
 }
 

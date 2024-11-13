@@ -5,8 +5,9 @@ CREATE TABLE IF NOT EXISTS apartment (
                                          price_per_day double precision
 );
 
-CREATE SEQUENCE apartment_sequence START 2 INCREMENT 1;
+CREATE SEQUENCE apartment_sequence START 3 INCREMENT 1;
 
 INSERT INTO apartment (id, is_available, number_of_room, price_per_day)
 VALUES
-    (1, true, 3, 7000.00);
+    (1, true, 3, 7000.00),
+    (2, true, 1, 12000.00);
