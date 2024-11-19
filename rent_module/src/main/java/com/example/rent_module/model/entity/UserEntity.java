@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -13,8 +14,8 @@ import java.time.LocalDateTime;
 public class UserEntity {
 
     @Id
-    @SequenceGenerator(name="user_infoSequence", sequenceName="user_info_sequence", allocationSize = 1, initialValue = 2)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="user_infoSequence")
+    @SequenceGenerator(name = "user_infoSequence", sequenceName = "user_info_sequence", allocationSize = 1, initialValue = 2)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_infoSequence")
     @Column(name = "id")
     private Long id;
 
@@ -36,11 +37,6 @@ public class UserEntity {
     @Column(name = "token")
     private String token;
 
-    public UserEntity(String userName, String email, String password) {
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-//        this.roles = roles;
-        this.dateRegistration = LocalDateTime.now();
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userEntity")
+    private List<BookingInfoEntity> bookingInfoEntities;
 }

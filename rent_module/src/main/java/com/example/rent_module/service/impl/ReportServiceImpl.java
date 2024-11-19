@@ -24,12 +24,11 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public String getReport() {
         List<ApartmentEntity> apartments = apartmentRepository.findAll();
-        File file = new File("C:\\Users\\Lucy\\IdeaProjects\\rent_apartement_app\\template.xlsx");
-//        if (file.length() == 0) {
-//            throw new IllegalArgumentException("The provided file is empty");
-//        }
+        File file = new File("C:\\Users\\Lucy\\IdeaProjects\\rent_apartement_app\\Report_template.xlsx");
+        if (file.length() == 0) {
+            throw new IllegalArgumentException("The provided file is empty");
+        }
         try(FileInputStream fileInputStream = new FileInputStream(file);
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
             Workbook workbook = new XSSFWorkbook(fileInputStream)) {
 
             Sheet sheet = workbook.getSheetAt(0);
@@ -42,14 +41,16 @@ public class ReportServiceImpl implements ReportService {
                 row.createCell(2).setCellValue(LocalDateTime.now());
             }
 
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
             workbook.write(fileOutputStream);
             fileOutputStream.flush();
+            fileOutputStream.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Файл для выгрузки отчета не найден");
         } catch (IOException e) {
             throw new RuntimeException("Проблема с выгрузкой отчета");
         }
-        return null;
+        return "Отчет сохранен в файл";
     }
 
     private String getFullAddress(ApartmentEntity apart) {

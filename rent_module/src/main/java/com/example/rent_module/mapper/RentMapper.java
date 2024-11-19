@@ -4,6 +4,8 @@ import com.example.rent_module.model.dto.ApartmentRequestDto;
 import com.example.rent_module.model.dto.ApartmentResponseDto;
 import com.example.rent_module.model.entity.AddressEntity;
 import com.example.rent_module.model.entity.ApartmentEntity;
+import com.example.rent_module.model.entity.BookingInfoEntity;
+import com.example.rent_module.model.entity.UserEntity;
 import com.example.rent_module.service.impl.Base64EncoderDecoder;
 import org.mapstruct.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.Base64;
 
 import static java.util.Objects.isNull;
@@ -42,5 +45,7 @@ public interface RentMapper {
             apartmentResponse.setPhoto(photo);
         }
     }
+
+    BookingInfoEntity prepareBookingInfoEntityFromParams(LocalDate startDate, LocalDate endDate, ApartmentEntity apartmentEntity, UserEntity userEntity);
 }
 

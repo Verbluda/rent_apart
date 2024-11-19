@@ -6,11 +6,10 @@ import com.example.rent_module.model.dto.ApartmentRequestDto;
 import com.example.rent_module.model.dto.ApartmentResponseDto;
 import com.example.rent_module.model.dto.geo_coder.GeoCoderResponseDto;
 import com.example.rent_module.model.dto.weather.WeatherResponseDto;
-import com.example.rent_module.model.entity.AddressEntity;
-import com.example.rent_module.model.entity.ApartmentEntity;
-import com.example.rent_module.model.entity.PhotoEntity;
+import com.example.rent_module.model.entity.*;
 import com.example.rent_module.repository.AddressRepository;
 import com.example.rent_module.repository.ApartmentRepository;
+import com.example.rent_module.repository.BookingRepository;
 import com.example.rent_module.service.IntegrationService;
 import com.example.rent_module.service.RentService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +28,8 @@ public class RentServiceImpl implements RentService {
 
     private final AddressRepository addressRepository;
     private final ApartmentRepository apartmentRepository;
+
+    private final BookingRepository bookingRepository;
     private final RentMapper rentMapper;
     private final IntegrationService integrationService;
     public static final String SUCCESSFUL_REGISTRATION_APARTMENT_MESSAGE = "Apartment is successfully registered";
@@ -91,6 +94,19 @@ public class RentServiceImpl implements RentService {
     @Override
     public WeatherResponseDto findWeatherByLocation(String latitude, String longitude) {
         return integrationService.findWeatherByLocation(latitude, longitude);
+    }
+
+    @Override
+    public ApartmentResponseDto bookApartment(UserEntity user, Long id, LocalDate startDate, LocalDate endDate) {
+        //bookingRepository. проверка (1 приоритет)
+        ApartmentEntity apartment = apartmentRepository.findById(id).orElseThrow(() -> new ApartmentException("Апартаменты недоступны для бронирования"));
+        BookingInfoEntity bookingInfo = rentMapper.prepareBookingInfoEntityFromParams(startDate, endDate, apartment, user);
+        bookingRepository.save(bookingInfo);
+        //bookingRepository
+        //productСontroller
+        rentMapper.apartmentEntityToApartmentResponseDto(apartment);
+        // в течение суток вышлем инфу
+        return null;
     }
 
 //    private String parsInfoFromGeo(String locationInfo) {
